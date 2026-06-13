@@ -1,0 +1,14 @@
+{
+  "name": "Mundial FIFA 2026 — Fase de Grupos",
+  "short_name": "Mundial 2026",
+  "description": "Horarios de la fase de grupos del Mundial FIFA 2026 para México, Dubulandia y Corea del Sur",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0e1a",
+  "theme_color": "#c8a84b",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

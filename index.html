@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#c8a84b">
+<meta name="description" content="Horarios fase de grupos Mundial FIFA 2026 para México, Dubulandia y Corea del Sur">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mundial 2026">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<title>Mundial FIFA 2026 — Fase de Grupos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #0a0e1a;
+  --bg2:     #111827;
+  --bg3:     #1a2235;
+  --surface: #1e2d42;
+  --border:  rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.18);
+  --text:    #f0f4ff;
+  --muted:   #7b8db0;
+  --accent:  #c8a84b;
+  --accent2: #e8c96a;
+  --ease:    cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+body.ready { opacity: 1; }
+
+/* ── UPDATE BANNER ── */
+#update-banner {
+  display: none;
+  background: linear-gradient(90deg, #0d1f3c, #1a2235);
+  border-bottom: 2px solid var(--accent);
+  padding: 12px 16px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text);
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: slideDown .35s var(--ease);
+}
+#update-banner.show { display: flex; }
+#update-banner button {
+  background: var(--accent); color: #0a0e1a;
+  border: none; border-radius: 99px;
+  padding: 6px 18px; font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: opacity .15s, transform .15s;
+}
+#update-banner button:hover { opacity: .85; transform: scale(1.03); }
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-100%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── INSTALL BANNER ── */
+#install-banner {
+  display: none;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border2);
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+#install-banner.show { display: flex; }
+
+#notif-banner {
+  display: none;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border2);
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+#notif-banner.show { display: flex; }
+#notif-banner button {
+  background: var(--accent); color: #0a0e1a;
+  border: none; border-radius: 99px;
+  padding: 6px 16px; font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: opacity .15s, transform .15s;
+}
+#notif-banner button:hover { opacity: .85; transform: scale(1.03); }
+#notif-banner .dismiss {
+  background: transparent; color: var(--muted);
+  font-weight: 400; font-size: 20px; padding: 0 6px; cursor: pointer;
+  border: none;
+}
+#notif-banner.on #notif-btn { display: none; }
+#install-banner button {
+  background: var(--accent); color: #0a0e1a;
+  border: none; border-radius: 99px;
+  padding: 6px 16px; font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: opacity .15s, transform .15s;
+}
+#install-banner button:hover { opacity: .85; transform: scale(1.03); }
+#install-banner .dismiss {
+  background: transparent; color: var(--muted);
+  font-weight: 400; font-size: 20px; padding: 0 6px; cursor: pointer;
+  border: none;
+}
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(160deg, #0a0e1a 0%, #0d1f3c 55%, #0a0e1a 100%);
+  border-bottom: 1px solid var(--border2);
+  padding: clamp(1.8rem, 5vw, 3rem) 1rem clamp(1.5rem, 4vw, 2.2rem);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(200,168,75,0.13), transparent);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-size: clamp(11px, 2vw, 13px);
+  letter-spacing: 0.22em; color: var(--accent);
+  text-transform: uppercase; font-weight: 700; margin-bottom: .5rem;
+}
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3rem, 10vw, 5.5rem);
+  letter-spacing: 0.04em; color: var(--text); line-height: 1; margin-bottom: .4rem;
+}
+.hero-title span { color: var(--accent); }
+.hero-sub {
+  font-size: clamp(13px, 2.5vw, 15px);
+  color: var(--muted); margin-bottom: 1.6rem; line-height: 1.6;
+}
+
+/* ── TZ PILLS ── */
+.tz-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.tz-pill {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border2); border-radius: 99px;
+  padding: 7px 16px;
+  font-size: clamp(12px, 2.5vw, 14px);
+  transition: background .2s, border-color .2s, transform .2s var(--ease);
+}
+.tz-pill:hover { background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.28); transform: translateY(-2px); }
+.tz-flag { font-size: clamp(15px, 3vw, 18px); }
+.tz-name { color: var(--text); font-weight: 600; }
+.tz-off  { color: var(--muted); font-size: clamp(10px, 2vw, 12px); }
+
+/* ── STATS ── */
+.stats-row {
+  display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+  padding: clamp(1rem, 3vw, 1.5rem) 1rem 0;
+  max-width: 960px; margin: 0 auto;
+}
+.stat {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 14px 22px; text-align: center;
+  min-width: 88px; flex: 1 1 80px; max-width: 140px;
+  transition: border-color .2s, transform .25s var(--ease), box-shadow .25s;
+}
+.stat:hover { border-color: var(--border2); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,.3); }
+.stat-n {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  color: var(--accent); line-height: 1;
+}
+.stat-l { font-size: clamp(11px, 2vw, 13px); color: var(--muted); margin-top: 3px; }
+
+/* ── FILTERS ── */
+.filters-wrap { padding: clamp(1rem, 3vw, 1.5rem) 1rem 0; max-width: 960px; margin: 0 auto; }
+.filters-label {
+  font-size: 12px; color: var(--muted); letter-spacing: .12em;
+  text-transform: uppercase; margin-bottom: 10px; font-weight: 600;
+}
+.filters { display: flex; gap: 7px; flex-wrap: wrap; }
+.f-btn {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(12px, 2.5vw, 13px); font-weight: 500;
+  padding: 6px 14px; border-radius: 99px;
+  border: 1px solid var(--border2); background: transparent; color: var(--muted);
+  cursor: pointer; white-space: nowrap;
+  transition: color .15s, border-color .15s, background .15s, transform .15s, box-shadow .15s;
+}
+.f-btn:hover { color: var(--text); border-color: rgba(255,255,255,.3); transform: translateY(-1px); }
+.f-btn:active { transform: scale(.96); }
+.f-btn.active {
+  background: rgba(200,168,75,.18); border-color: var(--accent); color: var(--accent2);
+  box-shadow: 0 0 0 1px rgba(200,168,75,.2) inset;
+}
+
+/* ── CONTENT ── */
+.content { max-width: 960px; margin: 0 auto; padding: clamp(1rem, 3vw, 1.5rem) 1rem; }
+.content { transition: opacity .18s ease, transform .18s var(--ease); }
+.content.fading { opacity: 0; transform: translateY(8px); }
+
+/* ── DAY BLOCK ── */
+.day-block { margin-bottom: clamp(1.5rem, 4vw, 2.2rem); }
+.day-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.day-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  letter-spacing: .08em; color: var(--text); white-space: nowrap;
+}
+.day-count {
+  font-size: 12px; color: var(--muted); background: var(--surface);
+  border-radius: 99px; padding: 2px 10px; border: 1px solid var(--border); white-space: nowrap;
+}
+.day-line { flex: 1; height: 1px; background: var(--border); }
+
+/* ── MATCH CARD ── */
+.match-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 14px 16px; margin-bottom: 8px;
+  display: grid; grid-template-columns: 140px 1fr 90px;
+  align-items: center; gap: 14px;
+  transition: border-color .22s, background .22s, transform .25s var(--ease), box-shadow .25s;
+  will-change: transform, opacity;
+  opacity: 0;
+}
+.match-card:hover {
+  border-color: rgba(200,168,75,.35); background: var(--bg3);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(0,0,0,.4), 0 0 0 1px rgba(200,168,75,.12);
+}
+.match-card:hover .group-badge { transform: scale(1.07); filter: brightness(1.15); }
+
+/* Times */
+.times { display: flex; flex-direction: column; gap: 6px; }
+.t-row  { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; }
+.t-flag { font-size: clamp(15px, 3vw, 18px); flex-shrink: 0; }
+.t-info { display: flex; flex-direction: column; }
+.t-label{ font-size: 11px; color: var(--muted); line-height: 1.2; }
+.t-val  {
+  font-size: clamp(14px, 2.8vw, 16px); font-weight: 700;
+  color: var(--text); font-variant-numeric: tabular-nums; line-height: 1.25;
+}
+.t-next { font-size: 10px; color: var(--accent); font-weight: 600; margin-left: 3px; }
+
+/* Center */
+.match-center { text-align: center; }
+.group-badge {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 5px; margin-bottom: 7px; letter-spacing: .06em;
+  transition: transform .18s var(--ease), filter .18s;
+}
+.teams-row {
+  font-size: clamp(14px, 3vw, 16px); font-weight: 700; color: var(--text);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  flex-wrap: wrap; line-height: 1.3;
+}
+.vs-sep { font-size: 12px; font-weight: 400; color: var(--muted); flex-shrink: 0; }
+.venue-txt { font-size: clamp(11px, 2vw, 13px); color: var(--muted); margin-top: 5px; }
+
+/* UTC */
+.utc-col { text-align: right; }
+.utc-val { font-size: clamp(11px, 2vw, 12px); color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* ── MOBILE ── */
+@media (max-width: 640px) {
+  .match-card { grid-template-columns: 1fr; gap: 10px; }
+  .times { flex-direction: row; flex-wrap: wrap; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .utc-col { text-align: left; }
+  .match-center { text-align: left; }
+  .teams-row { justify-content: flex-start; }
+}
+@media (max-width: 400px) { .tz-pill .tz-off { display: none; } }
+
+/* ── SCROLL TO TOP ── */
+#top-btn {
+  display: none; position: fixed; bottom: 1.5rem; right: 1.5rem;
+  background: var(--accent); color: #0a0e1a; border: none; border-radius: 99px;
+  width: 46px; height: 46px; font-size: 20px; font-weight: 700;
+  cursor: pointer; z-index: 99; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(200,168,75,.3);
+  transition: opacity .2s, transform .2s var(--ease);
+}
+#top-btn.show { display: flex; }
+#top-btn:hover { transform: translateY(-3px) scale(1.08); }
+#top-btn:active { transform: scale(.95); }
+
+/* ── OFFLINE TOAST ── */
+#offline-toast {
+  display: none; position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+  background: var(--surface); border: 1px solid var(--border2); border-radius: 99px;
+  padding: 10px 22px; font-size: 13px; color: var(--muted); z-index: 100; white-space: nowrap;
+}
+#offline-toast.show { display: block; }
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  body { opacity: 1 !important; }
+  .match-card { opacity: 1 !important; }
+}
+</style>
+</head>
+<body>
+
+<div id="update-banner">
+  <span>🆕 Nueva versión disponible</span>
+  <button id="update-btn">Actualizar ahora</button>
+</div>
+
+<div id="install-banner">
+  <span>📲 Instala la app para verlo sin internet</span>
+  <button id="install-btn">Instalar</button>
+  <button class="dismiss" id="dismiss-banner" aria-label="Cerrar">×</button>
+</div>
+
+<div id="notif-banner">
+  <span id="notif-text">🔔 Activa avisos: te notificamos 30, 10 y 5 min antes de cada partido (hora <span id="notif-country">—</span>)</span>
+  <button id="notif-btn">Activar</button>
+  <button class="dismiss" id="notif-dismiss" aria-label="Cerrar">×</button>
+</div>
+
+<div class="hero">
+  <div class="hero-eyebrow">⚽ Fase de Grupos · 11 Jun – 27 Jun 2026</div>
+  <h1 class="hero-title">Mundial <span>FIFA</span> 2026</h1>
+  <p class="hero-sub">48 equipos · 12 grupos · 96 partidos<br>Canadá, México &amp; EE.UU.</p>
+  <div class="tz-row">
+    <div class="tz-pill">
+      <span class="tz-flag">🇲🇽</span>
+      <span class="tz-name">México</span>
+      <span class="tz-off">CST · UTC−6</span>
+    </div>
+    <div class="tz-pill">
+      <span class="tz-flag">🌍</span>
+      <span class="tz-name">Dubulandia</span>
+      <span class="tz-off">UTC−5</span>
+    </div>
+    <div class="tz-pill">
+      <span class="tz-flag">🇰🇷</span>
+      <span class="tz-name">Corea del Sur</span>
+      <span class="tz-off">KST · UTC+9</span>
+    </div>
+  </div>
+</div>
+
+<div class="stats-row">
+  <div class="stat"><div class="stat-n" id="stat-matches">96</div><div class="stat-l">Partidos</div></div>
+  <div class="stat"><div class="stat-n">12</div><div class="stat-l">Grupos</div></div>
+  <div class="stat"><div class="stat-n">48</div><div class="stat-l">Equipos</div></div>
+  <div class="stat"><div class="stat-n">17</div><div class="stat-l">Días</div></div>
+</div>
+
+<div class="filters-wrap">
+  <div class="filters-label">Filtrar por grupo</div>
+  <div class="filters" id="filters"></div>
+</div>
+
+<div class="content" id="content"></div>
+
+<button id="top-btn" aria-label="Volver arriba">↑</button>
+<div id="offline-toast">📡 Sin conexión — datos en caché</div>
+
+<script>
+const GC = {
+  A:'#2ecc71',B:'#3b82f6',C:'#f97316',D:'#a78bfa',
+  E:'#f59e0b',F:'#ec4899',G:'#06b6d4',H:'#ef4444',
+  I:'#10b981',J:'#6366f1',K:'#f43f5e',L:'#84cc16'
+};
+
+/*
+  Todos los horarios (mx) están en hora del CENTRO DE MÉXICO (CST, UTC-6).
+  Dubulandia = México +1h  (offset: +1)
+  Corea      = México +15h (offset: +15)
+*/
+const OFF = { MX: 0, DUB: 1, KR: 15 };
+
+// Convierte hora México a hora local del espectador
+function toLocal(mxH, off) {
+  const h = (mxH + off) % 24;
+  const hh = Math.floor(h);
+  const mm = Math.round((h - hh) * 60);
+  const suf = hh >= 12 ? 'pm' : 'am';
+  const h12 = (hh % 12) || 12;
+  return `${h12}:${String(mm).padStart(2,'0')} ${suf}`;
+}
+
+// Devuelve tag de día siguiente si la hora local cae en el día siguiente
+function dayTag(mxH, off, dayStr) {
+  const localH = mxH + off;
+  if (localH >= 24) {
+    const NEXT = {Jueves:'Vie',Viernes:'Sáb',Sábado:'Dom',Domingo:'Lun',Lunes:'Mar',Martes:'Mié',Miércoles:'Jue'};
+    const w = dayStr.split(' ')[0];
+    return `<span class="t-next">${NEXT[w] || '+1'}</span>`;
+  }
+  return '';
+}
+
+// Hora UTC para mostrar en la columna derecha
+function utcLabel(mxH) {
+  const utcH = (mxH + 6) % 24; // MX es UTC-6, entonces UTC = MX + 6
+  const hh = Math.floor(utcH);
+  const mm = Math.round((utcH - hh) * 60);
+  return `${String(hh).padStart(2,'0')}:${String(mm).padStart(2,'0')} UTC`;
+}
+
+/*
+  Fixture completo — campo "mx" = hora local Ciudad de México (CST).
+  Fuentes: FIFA.com, TUDN, ESPN Deportes, confirmadas al 11 Jun 2026.
+
+  Horarios sede → hora México (CST = UTC-6):
+    Ciudad de México / Guadalajara / Monterrey: hora local = hora México
+    Houston / Dallas / Kansas City (UTC-5 = CDT): +1h sobre México
+    Seattle / SF / LA / Vancouver (UTC-7 = PDT): -1h sobre México
+    Atlanta / Miami / Toronto / Boston / Filadelfia / NJ (UTC-4 = EDT): +2h sobre México
+*/
+const MATCHES = [
+  // Jueves 11 Jun
+  {d:"Jueves 11 Jun",   g:"A", t1:"México",         t2:"Sudáfrica",       mx:13,   v:"Ciudad de México"},
+  {d:"Jueves 11 Jun",   g:"A", t1:"Corea del Sur",   t2:"Rep. Checa",      mx:20,   v:"Guadalajara"},
+  // Viernes 12 Jun
+  {d:"Viernes 12 Jun",  g:"B", t1:"Canadá",          t2:"Bosnia-Herz.",    mx:13,   v:"Toronto"},
+  {d:"Viernes 12 Jun",  g:"D", t1:"EE.UU.",          t2:"Paraguay",        mx:19,   v:"Los Ángeles"},
+  // Sábado 13 Jun
+  {d:"Sábado 13 Jun",   g:"B", t1:"Qatar",           t2:"Suiza",           mx:13,   v:"San Francisco"},
+  {d:"Sábado 13 Jun",   g:"C", t1:"Brasil",          t2:"Marruecos",       mx:16,   v:"New Jersey"},
+  {d:"Sábado 13 Jun",   g:"C", t1:"Haití",           t2:"Escocia",         mx:19,   v:"Boston"},
+  {d:"Sábado 13 Jun",   g:"D", t1:"Australia",       t2:"Turquía",         mx:22,   v:"Vancouver"},
+  // Domingo 14 Jun
+  {d:"Domingo 14 Jun",  g:"E", t1:"Alemania",        t2:"Curazao",         mx:11,   v:"Houston"},
+  {d:"Domingo 14 Jun",  g:"F", t1:"Países Bajos",    t2:"Japón",           mx:14,   v:"Dallas"},
+  {d:"Domingo 14 Jun",  g:"E", t1:"Costa de Marfil", t2:"Ecuador",         mx:17,   v:"Filadelfia"},
+  {d:"Domingo 14 Jun",  g:"F", t1:"Suecia",          t2:"Túnez",           mx:20,   v:"Monterrey"},
+  // Lunes 15 Jun
+  {d:"Lunes 15 Jun",    g:"H", t1:"España",          t2:"Cabo Verde",      mx:10,   v:"Atlanta"},
+  {d:"Lunes 15 Jun",    g:"G", t1:"Bélgica",         t2:"Egipto",          mx:13,   v:"Seattle"},
+  {d:"Lunes 15 Jun",    g:"H", t1:"Arabia Saudita",  t2:"Uruguay",         mx:16,   v:"Miami"},
+  {d:"Lunes 15 Jun",    g:"G", t1:"Irán",            t2:"Nueva Zelanda",   mx:19,   v:"Los Ángeles"},
+  // Martes 16 Jun
+  {d:"Martes 16 Jun",   g:"I", t1:"Francia",         t2:"Senegal",         mx:13,   v:"New Jersey"},
+  {d:"Martes 16 Jun",   g:"I", t1:"Irak",            t2:"Noruega",         mx:16,   v:"Boston"},
+  {d:"Martes 16 Jun",   g:"J", t1:"Argentina",       t2:"Argelia",         mx:19,   v:"Kansas City"},
+  {d:"Martes 16 Jun",   g:"J", t1:"Austria",         t2:"Jordania",        mx:22,   v:"San Francisco"},
+  // Miércoles 17 Jun
+  {d:"Miércoles 17 Jun",g:"K", t1:"Portugal",        t2:"R.D. Congo",      mx:11,   v:"Houston"},
+  {d:"Miércoles 17 Jun",g:"L", t1:"Inglaterra",      t2:"Croacia",         mx:14,   v:"Dallas"},
+  {d:"Miércoles 17 Jun",g:"L", t1:"Ghana",           t2:"Panamá",          mx:17,   v:"Toronto"},
+  {d:"Miércoles 17 Jun",g:"K", t1:"Uzbekistán",      t2:"Colombia",        mx:20,   v:"Ciudad de México"},
+  // Jueves 18 Jun
+  {d:"Jueves 18 Jun",   g:"A", t1:"Rep. Checa",      t2:"Sudáfrica",       mx:10,   v:"Atlanta"},
+  {d:"Jueves 18 Jun",   g:"B", t1:"Suiza",           t2:"Bosnia-Herz.",    mx:13,   v:"Los Ángeles"},
+  {d:"Jueves 18 Jun",   g:"B", t1:"Canadá",          t2:"Qatar",           mx:16,   v:"Vancouver"},
+  {d:"Jueves 18 Jun",   g:"A", t1:"México",          t2:"Corea del Sur",   mx:19,   v:"Guadalajara"},
+  // Viernes 19 Jun
+  {d:"Viernes 19 Jun",  g:"D", t1:"EE.UU.",          t2:"Australia",       mx:13,   v:"Seattle"},
+  {d:"Viernes 19 Jun",  g:"C", t1:"Escocia",         t2:"Marruecos",       mx:16,   v:"Boston"},
+  {d:"Viernes 19 Jun",  g:"C", t1:"Brasil",          t2:"Haití",           mx:19,   v:"Filadelfia"},
+  {d:"Viernes 19 Jun",  g:"D", t1:"Turquía",         t2:"Paraguay",        mx:21,   v:"San Francisco"},
+  // Sábado 20 Jun
+  {d:"Sábado 20 Jun",   g:"F", t1:"Países Bajos",    t2:"Suecia",          mx:11,   v:"Houston"},
+  {d:"Sábado 20 Jun",   g:"E", t1:"Alemania",        t2:"Costa de Marfil", mx:14,   v:"Toronto"},
+  {d:"Sábado 20 Jun",   g:"E", t1:"Ecuador",         t2:"Curazao",         mx:18,   v:"Kansas City"},
+  {d:"Sábado 20 Jun",   g:"F", t1:"Túnez",           t2:"Japón",           mx:22,   v:"Monterrey"},
+  // Domingo 21 Jun
+  {d:"Domingo 21 Jun",  g:"H", t1:"España",          t2:"Arabia Saudita",  mx:10,   v:"Atlanta"},
+  {d:"Domingo 21 Jun",  g:"G", t1:"Bélgica",         t2:"Irán",            mx:13,   v:"Los Ángeles"},
+  {d:"Domingo 21 Jun",  g:"H", t1:"Uruguay",         t2:"Cabo Verde",      mx:16,   v:"Miami"},
+  {d:"Domingo 21 Jun",  g:"G", t1:"Nueva Zelanda",   t2:"Egipto",          mx:19,   v:"Vancouver"},
+  // Lunes 22 Jun
+  {d:"Lunes 22 Jun",    g:"J", t1:"Argentina",       t2:"Austria",         mx:11,   v:"Dallas"},
+  {d:"Lunes 22 Jun",    g:"I", t1:"Francia",         t2:"Irak",            mx:15,   v:"Filadelfia"},
+  {d:"Lunes 22 Jun",    g:"I", t1:"Noruega",         t2:"Senegal",         mx:18,   v:"New Jersey"},
+  {d:"Lunes 22 Jun",    g:"J", t1:"Jordania",        t2:"Argelia",         mx:21,   v:"San Francisco"},
+  // Martes 23 Jun
+  {d:"Martes 23 Jun",   g:"K", t1:"Portugal",        t2:"Uzbekistán",      mx:11,   v:"Houston"},
+  {d:"Martes 23 Jun",   g:"L", t1:"Inglaterra",      t2:"Ghana",           mx:14,   v:"Boston"},
+  {d:"Martes 23 Jun",   g:"L", t1:"Panamá",          t2:"Croacia",         mx:17,   v:"Toronto"},
+  {d:"Martes 23 Jun",   g:"K", t1:"Colombia",        t2:"R.D. Congo",      mx:20,   v:"Guadalajara"},
+  // Miércoles 24 Jun
+  {d:"Miércoles 24 Jun",g:"B", t1:"Suiza",           t2:"Canadá",          mx:13,   v:"Vancouver"},
+  {d:"Miércoles 24 Jun",g:"B", t1:"Bosnia-Herz.",    t2:"Qatar",           mx:13,   v:"Seattle"},
+  {d:"Miércoles 24 Jun",g:"C", t1:"Escocia",         t2:"Brasil",          mx:16,   v:"Miami"},
+  {d:"Miércoles 24 Jun",g:"C", t1:"Marruecos",       t2:"Haití",           mx:16,   v:"Atlanta"},
+  {d:"Miércoles 24 Jun",g:"A", t1:"Rep. Checa",      t2:"México",          mx:19,   v:"Ciudad de México"},
+  {d:"Miércoles 24 Jun",g:"A", t1:"Sudáfrica",       t2:"Corea del Sur",   mx:19,   v:"Monterrey"},
+  // Jueves 25 Jun
+  {d:"Jueves 25 Jun",   g:"E", t1:"Ecuador",         t2:"Alemania",        mx:14,   v:"New Jersey"},
+  {d:"Jueves 25 Jun",   g:"E", t1:"Curazao",         t2:"Costa de Marfil", mx:14,   v:"Filadelfia"},
+  {d:"Jueves 25 Jun",   g:"F", t1:"Japón",           t2:"Suecia",          mx:17,   v:"Dallas"},
+  {d:"Jueves 25 Jun",   g:"F", t1:"Túnez",           t2:"Países Bajos",    mx:17,   v:"Kansas City"},
+  {d:"Jueves 25 Jun",   g:"D", t1:"Turquía",         t2:"EE.UU.",          mx:20,   v:"Los Ángeles"},
+  {d:"Jueves 25 Jun",   g:"D", t1:"Paraguay",        t2:"Australia",       mx:20,   v:"San Francisco"},
+  // Viernes 26 Jun
+  {d:"Viernes 26 Jun",  g:"I", t1:"Noruega",         t2:"Francia",         mx:13,   v:"Boston"},
+  {d:"Viernes 26 Jun",  g:"I", t1:"Senegal",         t2:"Irak",            mx:13,   v:"Toronto"},
+  {d:"Viernes 26 Jun",  g:"H", t1:"Cabo Verde",      t2:"Arabia Saudita",  mx:18,   v:"Houston"},
+  {d:"Viernes 26 Jun",  g:"H", t1:"Uruguay",         t2:"España",          mx:18,   v:"Guadalajara"},
+  {d:"Viernes 26 Jun",  g:"G", t1:"Egipto",          t2:"Irán",            mx:21,   v:"Seattle"},
+  {d:"Viernes 26 Jun",  g:"G", t1:"Nueva Zelanda",   t2:"Bélgica",         mx:21,   v:"Vancouver"},
+  // Sábado 27 Jun
+  {d:"Sábado 27 Jun",   g:"L", t1:"Panamá",          t2:"Inglaterra",      mx:15,   v:"New Jersey"},
+  {d:"Sábado 27 Jun",   g:"L", t1:"Croacia",         t2:"Ghana",           mx:15,   v:"Filadelfia"},
+  {d:"Sábado 27 Jun",   g:"K", t1:"Colombia",        t2:"Portugal",        mx:17.5, v:"Miami"},
+  {d:"Sábado 27 Jun",   g:"K", t1:"R.D. Congo",      t2:"Uzbekistán",      mx:17.5, v:"Atlanta"},
+  {d:"Sábado 27 Jun",   g:"J", t1:"Argelia",         t2:"Austria",         mx:20,   v:"Kansas City"},
+  {d:"Sábado 27 Jun",   g:"J", t1:"Jordania",        t2:"Argentina",       mx:20,   v:"Dallas"},
+];
+
+/* ── Animate element via Web Animations API (sandbox-safe) ── */
+function animateIn(el, delay) {
+  el.animate(
+    [
+      { opacity: 0, transform: 'translateY(14px) scale(0.97)' },
+      { opacity: 1, transform: 'translateY(0) scale(1)' }
+    ],
+    { duration: 320, delay, easing: 'cubic-bezier(0.22,1,0.36,1)', fill: 'forwards' }
+  );
+}
+
+function buildFilters() {
+  const el = document.getElementById('filters');
+  const all = document.createElement('button');
+  all.className = 'f-btn active'; all.dataset.group = 'ALL'; all.textContent = 'Todos';
+  el.appendChild(all);
+  'ABCDEFGHIJKL'.split('').forEach(g => {
+    const b = document.createElement('button');
+    b.className = 'f-btn'; b.dataset.group = g; b.textContent = 'Grupo ' + g;
+    el.appendChild(b);
+  });
+  el.addEventListener('click', e => {
+    const btn = e.target.closest('.f-btn');
+    if (!btn) return;
+    document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const content = document.getElementById('content');
+    content.classList.add('fading');
+    setTimeout(() => {
+      render(btn.dataset.group);
+      content.classList.remove('fading');
+    }, 180);
+  });
+}
+
+function render(filter) {
+  const container = document.getElementById('content');
+  container.innerHTML = '';
+  const days = new Map();
+  let count = 0;
+  const nowUTC = Date.now();
+  MATCHES.forEach(m => {
+    if (filter !== 'ALL' && m.g !== filter) return;
+    // Ocultar partidos que ya terminaron (más de 110 min después del inicio)
+    const kickoff = matchDateUTC(m);
+    if (kickoff.getTime() + 110 * 60 * 1000 < nowUTC) return;
+    if (!days.has(m.d)) days.set(m.d, []);
+    days.get(m.d).push(m); count++;
+  });
+  document.getElementById('stat-matches').textContent = count;
+
+  let cardIndex = 0;
+  days.forEach((ms, day) => {
+    const block = document.createElement('div');
+    block.className = 'day-block';
+    const hdr = document.createElement('div');
+    hdr.className = 'day-header';
+    hdr.innerHTML = `<div class="day-title">${day}</div><div class="day-count">${ms.length} partido${ms.length > 1 ? 's' : ''}</div><div class="day-line"></div>`;
+    block.appendChild(hdr);
+
+    ms.forEach(m => {
+      const gc = GC[m.g];
+      const card = document.createElement('div');
+      card.className = 'match-card';
+      card.innerHTML = `
+        <div class="times">
+          <div class="t-row">
+            <span class="t-flag">🇲🇽</span>
+            <div class="t-info">
+              <span class="t-label">México</span>
+              <span class="t-val">${toLocal(m.mx, OFF.MX)}${dayTag(m.mx, OFF.MX, m.d)}</span>
+            </div>
+          </div>
+          <div class="t-row">
+            <span class="t-flag">🌍</span>
+            <div class="t-info">
+              <span class="t-label">Dubulandia</span>
+              <span class="t-val">${toLocal(m.mx, OFF.DUB)}${dayTag(m.mx, OFF.DUB, m.d)}</span>
+            </div>
+          </div>
+          <div class="t-row">
+            <span class="t-flag">🇰🇷</span>
+            <div class="t-info">
+              <span class="t-label">Corea del Sur</span>
+              <span class="t-val">${toLocal(m.mx, OFF.KR)}${dayTag(m.mx, OFF.KR, m.d)}</span>
+            </div>
+          </div>
+        </div>
+        <div class="match-center">
+          <span class="group-badge" style="background:${gc}22;color:${gc};">GRUPO ${m.g}</span>
+          <div class="teams-row">
+            <span>${m.t1}</span><span class="vs-sep">vs</span><span>${m.t2}</span>
+          </div>
+          <div class="venue-txt">📍 ${m.v}</div>
+        </div>
+        <div class="utc-col">
+          <div class="utc-val">${utcLabel(m.mx)}</div>
+        </div>`;
+      block.appendChild(card);
+      animateIn(card, Math.min(cardIndex * 35, 400));
+      cardIndex++;
+    });
+    container.appendChild(block);
+  });
+}
+
+/* scroll to top */
+const topBtn = document.getElementById('top-btn');
+window.addEventListener('scroll', () => topBtn.classList.toggle('show', scrollY > 400), { passive: true });
+topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+/* offline */
+window.addEventListener('offline', () => document.getElementById('offline-toast').classList.add('show'));
+window.addEventListener('online',  () => document.getElementById('offline-toast').classList.remove('show'));
+
+/* PWA install */
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault(); deferredPrompt = e;
+  document.getElementById('install-banner').classList.add('show');
+});
+document.getElementById('install-btn').addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('install-banner').classList.remove('show');
+});
+document.getElementById('dismiss-banner').addEventListener('click', () =>
+  document.getElementById('install-banner').classList.remove('show')
+);
+
+/* Service Worker + auto-actualización con banner */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      const reg = await navigator.serviceWorker.register('/sw.js');
+
+      // Verificar actualizaciones cada 30 minutos
+      setInterval(() => reg.update(), 30 * 60 * 1000);
+
+      function showUpdateBanner(newWorker) {
+        const banner = document.getElementById('update-banner');
+        banner.classList.add('show');
+        document.getElementById('update-btn').addEventListener('click', () => {
+          // Decirle al nuevo SW que se active ya (skipWaiting)
+          newWorker.postMessage({ type: 'SKIP_WAITING' });
+        });
+      }
+
+      // Caso 1: ya hay un SW nuevo esperando cuando se carga la página
+      if (reg.waiting) {
+        showUpdateBanner(reg.waiting);
+      }
+
+      // Caso 2: un SW nuevo termina de instalarse mientras la app está abierta
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            showUpdateBanner(newWorker);
+          }
+        });
+      });
+
+      // Caso 3: el SW nuevo se activó (tras SKIP_WAITING) → recargar
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) { refreshing = true; window.location.reload(); }
+      });
+
+      // Caso 4: mensaje SW_UPDATED del nuevo SW (futuras actualizaciones)
+      navigator.serviceWorker.addEventListener('message', e => {
+        if (e.data && e.data.type === 'SW_UPDATED') {
+          if (!refreshing) { refreshing = true; window.location.reload(); }
+        }
+      });
+
+    } catch(err) {}
+  });
+}
+
+/* ─────────────────────────────────────────────
+   DETECCIÓN DE PAÍS Y NOTIFICACIONES
+   ───────────────────────────────────────────── */
+
+const COUNTRY_INFO = {
+  MX:  { name: 'México',        flag: '🇲🇽', offsetUTC: -6 },
+  DUB: { name: 'Dubulandia',    flag: '🌍', offsetUTC: -5 },
+  KR:  { name: 'Corea del Sur', flag: '🇰🇷', offsetUTC: 9  }
+};
+
+// Detecta a cuál de los 3 países pertenece el usuario comparando
+// su zona horaria local contra los offsets de México, Dubulandia y Corea.
+function detectCountry() {
+  const localOffsetH = -new Date().getTimezoneOffset() / 60; // horas respecto a UTC
+  let best = 'MX', bestDiff = Infinity;
+  for (const [key, info] of Object.entries(COUNTRY_INFO)) {
+    const diff = Math.abs(localOffsetH - info.offsetUTC);
+    if (diff < bestDiff) { bestDiff = diff; best = key; }
+  }
+  return best;
+}
+
+const DETECTED = detectCountry();
+const DETECTED_INFO = COUNTRY_INFO[DETECTED];
+
+// Convierte la fecha del partido (campo "d", ej. "Jueves 11 Jun") + su hora
+// en México (campo "mx") a un objeto Date real en UTC. Mundial 2026 = único año relevante.
+function matchDateUTC(m) {
+  const day = parseInt(m.d.match(/\d+/)[0], 10);
+  const hh = Math.floor(m.mx);
+  const mm = Math.round((m.mx - hh) * 60);
+  let utcH = hh + 6; // México = UTC-6 (sin horario de verano)
+  let utcDay = day;
+  if (utcH >= 24) { utcH -= 24; utcDay += 1; }
+  return new Date(Date.UTC(2026, 5, utcDay, utcH, mm)); // mes 5 = junio
+}
+
+// Formatea la hora local del usuario para mostrarla en la notificación
+function localTimeStr(date) {
+  return date.toLocaleTimeString('es-MX', { hour: 'numeric', minute: '2-digit' });
+}
+
+const NOTIF_OFFSETS = [
+  { mins: 30, label: '30 minutos' },
+  { mins: 10, label: '10 minutos' },
+  { mins: 5,  label: '5 minutos' }
+];
+
+const SENT_KEY = 'mundial2026-sent-notifs';
+function getSent() {
+  try { return new Set(JSON.parse(localStorage.getItem(SENT_KEY) || '[]')); }
+  catch { return new Set(); }
+}
+function markSent(id) {
+  const s = getSent(); s.add(id);
+  localStorage.setItem(SENT_KEY, JSON.stringify([...s]));
+}
+
+// Muestra notificación SIEMPRE desde el Service Worker (funciona en Android e iOS PWA)
+async function fireNotification(id, title, body) {
+  if (Notification.permission !== 'granted') return;
+  if ('serviceWorker' in navigator) {
+    const reg = await navigator.serviceWorker.ready;
+    reg.showNotification(title, {
+      body,
+      icon: '/icons/icon-192.png',
+      badge: '/icons/icon-192.png',
+      tag: id,
+      vibrate: [120, 60, 120],
+      requireInteraction: false
+    });
+  } else {
+    new Notification(title, { body, icon: '/icons/icon-192.png' });
+  }
+}
+
+// Usa el SW para programar notificaciones: le manda un mensaje con el fireAt timestamp.
+// Esto hace que el setTimeout viva en el SW y no dependa de que la pestaña esté activa.
+async function sendToSW(id, fireAt, title, body) {
+  if (!('serviceWorker' in navigator)) return;
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    reg.active.postMessage({ type: 'SCHEDULE_NOTIF', id, fireAt, title, body });
+  } catch(e) {}
+}
+
+// Programa los avisos (30/10/5 min antes).
+// Para delays cortos (< 5 min) usa setTimeout directo en el cliente.
+// Para delays largos usa el service worker (sobrevive al cierre de pantalla en Android).
+function scheduleNotifications() {
+  if (Notification.permission !== 'granted') return;
+  const now = Date.now();
+  const sent = getSent();
+
+  MATCHES.forEach((m, idx) => {
+    const kickoff = matchDateUTC(m);
+    NOTIF_OFFSETS.forEach(({ mins, label }) => {
+      const fireAt = kickoff.getTime() - mins * 60 * 1000;
+      const id = `${idx}-${mins}`;
+      if (sent.has(id)) return;
+      const delay = fireAt - now;
+      // Si ya pasó (más de 1 min tarde), marcar como enviado y skip
+      if (delay < -60000) { markSent(id); return; }
+      // Si falta más de 24h o es negativo (menos de 1 min tarde), ignorar en esta pasada
+      if (delay < 0 || delay > 86400000) return;
+
+      const localStr = localTimeStr(kickoff);
+      const title = `⚽ Faltan ${label}: ${m.t1} vs ${m.t2}`;
+      const body = `Grupo ${m.g} · ${m.v} · ${localStr} (hora ${DETECTED_INFO.name})`;
+
+      if (delay <= 5 * 60 * 1000) {
+        // Delay corto: setTimeout directo (el usuario probablemente tiene la app abierta)
+        setTimeout(() => {
+          fireNotification(id, title, body);
+          markSent(id);
+        }, delay);
+      } else {
+        // Delay largo: delegar al SW para que sobreviva en segundo plano (Android)
+        sendToSW(id, fireAt, title, body);
+      }
+    });
+  });
+}
+
+function setupNotifUI() {
+  const banner = document.getElementById('notif-banner');
+  const btn = document.getElementById('notif-btn');
+  const dismiss = document.getElementById('notif-dismiss');
+  const countrySpan = document.getElementById('notif-country');
+
+  countrySpan.textContent = `${DETECTED_INFO.flag} ${DETECTED_INFO.name}`;
+
+  // Solo mostrar notificaciones si el usuario está en la PWA instalada
+  // (standalone = Android/Chrome instalado, navigator.standalone = iOS Safari añadido a pantalla)
+  const isPWA = window.matchMedia('(display-mode: standalone)').matches
+             || window.navigator.standalone === true;
+
+  if (!isPWA) return; // en browser normal, no hacer nada
+  if (!('Notification' in window)) return; // navegador sin soporte
+
+  const enabled = localStorage.getItem('mundial2026-notif-enabled') === 'true';
+  const dismissed = localStorage.getItem('mundial2026-notif-dismissed') === 'true';
+
+  if (enabled && Notification.permission === 'granted') {
+    banner.classList.add('show', 'on');
+    scheduleNotifications();
+    setInterval(scheduleNotifications, 60 * 1000);
+  } else if (!dismissed && Notification.permission !== 'denied') {
+    banner.classList.add('show');
+  }
+
+  btn.addEventListener('click', async () => {
+    const perm = await Notification.requestPermission();
+    if (perm === 'granted') {
+      localStorage.setItem('mundial2026-notif-enabled', 'true');
+      banner.classList.add('on');
+      fireNotification('welcome', '🔔 Notificaciones activadas', `Te avisaremos 30, 10 y 5 min antes de cada partido (hora ${DETECTED_INFO.name})`);
+      scheduleNotifications();
+      setInterval(scheduleNotifications, 60 * 1000);
+    } else {
+      banner.classList.remove('show');
+      localStorage.setItem('mundial2026-notif-dismissed', 'true');
+    }
+  });
+
+  dismiss.addEventListener('click', () => {
+    banner.classList.remove('show');
+    localStorage.setItem('mundial2026-notif-dismissed', 'true');
+  });
+}
+
+setupNotifUI();
+
+buildFilters();
+render('ALL');
+
+requestAnimationFrame(() => requestAnimationFrame(() => document.body.classList.add('ready')));
+</script>
+</body>
+</html>
